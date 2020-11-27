@@ -9,7 +9,6 @@ dependencies:
   - pip=20.0.2
   - python=3.7.7
   - scipy=1.4.1
-  - tensorflow=2.1.0
   - pip:
     - biopython==1.76
     - matplotlib==3.2.1
