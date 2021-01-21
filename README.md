@@ -17,6 +17,6 @@ conda activate tcrpair
 For predictions with TCRpair, call tcrpair_predict.py including the required arguments.
 To see, which arguments are available including a help text describing the expected value, call
 ~~~
-python tcrpair_predicty.py -h
+python tcrpair_predict.py -h
 ~~~
 
