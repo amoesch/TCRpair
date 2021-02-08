@@ -48,7 +48,7 @@ def encode_sequences_df(df: pd.DataFrame, encoding: str, *fields):
 	for field in fields[0]:
 		df['{}.enc'.format(field)] = df[field].apply(lambda x : [enc_dict[y] for y in list(x)])
 		enc_fields.append('{}.enc'.format(field))
-		vocab_str = ''.join([vocab_str, df[field].sum()])
+		vocab_str = ''.join([vocab_str, str(df[field].sum())])
 	return df, set(vocab_str)
 ### FUNCTION END ###
 

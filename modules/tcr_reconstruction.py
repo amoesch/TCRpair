@@ -71,8 +71,8 @@ def reconstruct_tcr(dfrow: pd.Series, datasetname: str, chain: str):
 			dfrow['cdr3.{}'.format(tcrpair_config.chains[chain])])
 ### FUNCTION END ###
 
-def add_full_tcr_to_df(df: pd.DataFrame, datasetname: str, dropnnanalleles: False):
-	df = imgt.get_allele_sequences(df, dropnnanalleles)
+def add_full_tcr_to_df(df: pd.DataFrame, datasetname: str, dropnanalleles: False):
+	df = imgt.get_allele_sequences(df, dropnanalleles)
 	print('TCRs with allele sequences in IMGT: {}'.format(len(df)))
 	df['full.alpha'] = df.apply(reconstruct_tcr, axis=1, datasetname=datasetname, chain='A')
 	print('No alpha reconstruction possible: {}'.format(len(df.loc[df['full.alpha'].isna()])))
