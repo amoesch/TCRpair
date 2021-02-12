@@ -7,7 +7,7 @@ from modules import tcrpair_config, mldata, mlmodels, tcr_reconstruction
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-d', choices=['cdr3', 'full', 'part'], required=True, help='Type of data')
-	parser.add_argument('-a', type=str, required=False, help='HLA allele')
+	parser.add_argument('-a', type=str, required=False, default='HLA-A*02:01', help='HLA allele')
 	parser.add_argument('-e', type=int, required=True, help='Number of epochs')
 	parser.add_argument('-b', type=int, default=50, help='Batch size')
 	parser.add_argument('-c', choices=['onehot', 'blosum50', 'blosum62', 'blosum75', 'blosum85', 'blosum100'],

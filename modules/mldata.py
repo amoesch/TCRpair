@@ -116,18 +116,17 @@ def split_data(xdata, ydata):
 	return train_test_split(xdata, ydata, test_size=0.2, random_state=10)
 ### FUNCTION END ###
 
-def main():
-	# Test functions
-
-	# Load filtered paired VDJdb data with reconstructed sequences
-	vdjdb_df = pd.read_csv(
-		os.path.join(tcrpair_config.vdjdb_df_path, 'vdjdb_full_df.tsv.gz'), sep='\t', index_col=None, low_memory=False)
-
-	vdjdb_df, vocab = encode_sequences_df(vdjdb_df, 'matrix', [x for x in tcrpair_config.seq_cols if not x.startswith('part')])
-
-	neg_vdjdb_df = make_negative_dataset(vdjdb_df)
-
-	neg_vdjdb_df = encode_sequences_df(neg_vdjdb_df, 'matrix', tcrpair_config.seq_cols)
-
-if __name__ == "__main__":
-	main()
+def store_validation_data(pos_df: pd.DataFrame, neg_df: pd.DataFrame):
+	pos_df.insert(0, 'recognition', 1)
+	neg_df.insert(0, 'recognition', 0)
+	df = pos_df.append(neg_df)
+	X_train_df, X_test_df, y_train, y_test = split_data(df[['antigen.epitope', 'antigen.gene', 'antigen.species',
+				   'cdr3.alpha', 'cdr3.beta',
+				   'j.alpha', 'j.beta', 'v.alpha', 'v.beta', 'mhc.a']], df['recognition'])
+	X_test_df.insert(len(X_test_df.columns), 'recognnition', y_test)
+	X_test_df.to_csv(
+		os.path.join(
+			tcrpair_config.val_path, 'firstvalidationdata_df.tsv.gz'
+		), compression='gzip', sep='\t', index=False
+	)
+### FUNCTION END ###

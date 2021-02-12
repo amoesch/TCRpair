@@ -28,6 +28,8 @@ imgt_data_path = os.path.join(imgt_path, data_dir)
 td_dir = 'trainingdata'
 td_path = os.path.join(datasets_path, td_dir)
 
+val_path = os.path.join(datasets_path, 'validationdata')
+
 plots_dir = 'plots'
 plots_path = os.path.join(project_path, plots_dir)
 mp_plots_path = os.path.join(plots_dir, 'model_performances')
