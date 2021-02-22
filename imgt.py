@@ -36,7 +36,7 @@ def fetch_sequence(allele: str, imgt_df: pd.DataFrame):
 			return imgt_df.loc[imgt_df['allele'] == allele, 'aaseq'].values[0]
 		else:
 			for a in imgt_df['allele'].unique():
-				if a.startswith(allele) and a.endswith('01'):
+				if a.startswith(allele.split('*')[0]) and a.endswith('01'):
 					return imgt_df.loc[imgt_df['allele'] == a, 'aaseq'].values[0]
 			#print('[ERROR] No amino acid sequence could be found for allele {}'.format(allele))
 			return None
