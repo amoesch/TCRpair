@@ -12,7 +12,7 @@ def main():
 
 	mn_list = list()
 	ep_list = list()
-	rc_list = list()
+	auc_list = list()
 
 	# Load data
 	test_df = pd.read_csv(
@@ -30,6 +30,14 @@ def main():
 
 			ep_df = test_df.loc[test_df['antigen.epitope'] == epitope]
 			if len(ep_df) >= 10:
+				# # Save NetTCR testdata
+				# if epitope == 'GILGFVFTL':
+				# 	ep_df.loc[ep_df['recognition'] == 0].to_csv(
+				# 		os.path.join(tcrpair_config.gil_path, 'nettcr_testdata_neg.tsv'),
+				# 		index=False, sep='\t', columns=['cdr3.alpha', 'cdr3.beta'], header=False)
+				# 	ep_df.loc[ep_df['recognition'] == 1].to_csv(
+				# 		os.path.join(tcrpair_config.gil_path, 'nettcr_testdata_pos.tsv'),
+				# 		index=False, sep='\t', columns=['cdr3.alpha', 'cdr3.beta'], header=False)
 				seq_cols = [x for x in tcrpair_config.seq_cols if not x.startswith('part')]
 				if dt == 'part':
 					# Add partial sequences
@@ -47,18 +55,28 @@ def main():
 					)
 				).round()
 
-				recall = metrics.recall_score([1] * len(ep_df), ep_df['predicted.functionality'].to_list())
+				auc = metrics.roc_auc_score(ep_df['recognition'].to_list(), ep_df['predicted.functionality'].to_list())
 
 				mn_list.append(modelname)
 				ep_list.append(epitope)
-				rc_list.append(recall)
+				auc_list.append(auc)
+
+				# Compare NetTCR results
+				# if epitope == 'GILGFVFTL':
+				# 	net_pos_df = pd.read_csv(os.path.join(tcrpair_config.gil_path, 'nettcr_predictions_pos.csv'), sep='\t')
+				# 	net_neg_df = pd.read_csv(os.path.join(tcrpair_config.gil_path, 'nettcr_predictions_neg.csv'), sep='\t')
+				# 	net_recall = metrics.recall_score([1] * len(net_pos_df), [round(x) for x in net_pos_df['prediction'].to_list()])
+				# 	i = 0
+				# test1 = metrics.roc_auc_score(ep_df['recognition'], ep_df['predicted.functionality'].to_list())
+				# test2 = metrics.roc_auc_score([1] * len(net_pos_df) + [0] * len(net_neg_df),
+				# 							 net_pos_df['prediction'].to_list() + net_neg_df['prediction'].to_list())
 
 	results_df = pd.DataFrame(
 		{'model' : mn_list,
 		 'epitope' : ep_list,
-		 'recall' : rc_list}
+		 'auc' : auc_list}
 	)
-	results_df = results_df.pivot(index='model', columns='epitope', values='recall')
+	results_df = results_df.pivot(index='model', columns='epitope', values='auc')
 	results_df['order'] = results_df.index
 	results_df['model'] = results_df['order'].apply(lambda x: '_'.join(x.split('_')[0:-1]))
 	results_df['order'] = results_df['order'].apply(lambda x: x.split('-')[1])

@@ -123,7 +123,7 @@ def store_validation_data(pos_df: pd.DataFrame, neg_df: pd.DataFrame):
 	X_train_df, X_test_df, y_train, y_test = split_data(df[['antigen.epitope', 'antigen.gene', 'antigen.species',
 				   'cdr3.alpha', 'cdr3.beta',
 				   'j.alpha', 'j.beta', 'v.alpha', 'v.beta', 'mhc.a']], df['recognition'])
-	X_test_df.insert(len(X_test_df.columns), 'recognnition', y_test)
+	X_test_df.insert(len(X_test_df.columns), 'recognition', y_test)
 	X_test_df.to_csv(
 		os.path.join(
 			tcrpair_config.val_path, 'firstvalidationdata_df.tsv.gz'
