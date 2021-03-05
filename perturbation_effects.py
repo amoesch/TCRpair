@@ -24,7 +24,7 @@ def var_importance(model, maxlen, x):
 def main():
 
 	enc = 'blosum62'
-	datasets = ['cdr3', 'part_9', 'part_11']
+	datasets = ['cdr3', 'part_5', 'part_9', 'part_7', 'part_11']
 	max_flank = 11
 
 	dn_df_list = list()

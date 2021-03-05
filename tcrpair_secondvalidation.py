@@ -10,7 +10,7 @@ from modules import tcrpair_config, mlmodels, mldata, tcr_reconstruction
 def main():
 
 	# Load data
-	multichains_df = pd.read_csv(os.path.join(tcrpair_config.val_path, 'coexpr_tcrs.csv'))
+	multichains_df = pd.read_csv(os.path.join(tcrpair_config.val_path, 'secondvalidationdata.csv'))
 	# TCR reconstruction (uses VDJdb column names)
 	multichains_df = tcr_reconstruction.add_full_tcr_to_df(multichains_df, 'VDJdb', dropnanalleles=False)
 
