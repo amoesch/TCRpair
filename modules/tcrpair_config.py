@@ -29,11 +29,15 @@ td_dir = 'trainingdata'
 td_path = os.path.join(datasets_path, td_dir)
 
 val_path = os.path.join(datasets_path, 'validationdata')
+ep_path = os.path.join(datasets_path, 'epitopedata')
 
 plots_dir = 'plots'
 plots_path = os.path.join(project_path, plots_dir)
 mp_plots_path = os.path.join(plots_dir, 'model_performances')
 pr_plots_path = os.path.join(plots_dir, 'predictions')
+
+tables_dir = 'tables'
+tables_path = os.path.join(project_path, tables_dir)
 
 # VDJdb columns
 antigen_cols = ['antigen.epitope', 'antigen.gene', 'antigen.species']
